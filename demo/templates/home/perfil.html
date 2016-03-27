@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil - {{ user }} {% endblock %}
+
+{% block my_css %}
+	<style type="text/css">
+		form#perfil {
+			background-color: #eef;
+			padding: 5px;
+			border-radius: 7px;
+		}
+	</style>
+{% endblock my_css %}
+
+{% block js %}
+	<script type="text/javascript">
+		function replaceIt(enlace){ enlace.replaceWith('<img src="'+enlace.attr('href')+'" width="100"/>'); }
+		$('p').find('input[type=file]').each(function(){
+			replaceIt($(this).parent().find('a'));
+			var ll = $(this).parent().find('label').last()
+			if ($(ll).html() == 'Limpiar'){
+				$(ll).css('display', 'inline');
+			}
+		});
+		$("#s_div_passwd").on('click', function(e){
+			e.preventDefault();
+			$("#div_passwd").toggle();
+		});
+		$("#s_div_personal").on('click', function(e){
+			e.preventDefault();
+			$("#div_personal").toggle();
+		});
+	</script>
+{% endblock js %}
+
+{% block content %}
+	<h1>Perfil de {{ user }}</h1>
+	<h3>{{ mensaje }}</h3>
+
+	<form id="perfil" method="post" enctype="multipart/form-data">{% csrf_token %}
+		<p>{{ form1.foto.label_tag }}{{ form1.foto }}</p>
+		<p>{{ form1.nombre.label_tag }}{{ form1.nombre }}</p>
+
+		<p><a href="#" id="s_div_passwd">Contraseña</a></p>
+		<div style="display:none" id="div_passwd">
+			<p>{{ form1.password.label_tag }}{{ form1.password }}</p>
+			<p>{{ form1.new_password.label_tag }}{{ form1.new_password }}</p>
+			<p>{{ form1.new_password_repeat.label_tag }}{{ form1.new_password_repeat }}</p>
+		</div>
+
+		<p><a href="#" id="s_div_personal">Datos personales</a></p>
+		<div style="display:none" id="div_personal">
+			<p>{{ form1.email.label_tag }}{{ form1.email }}</p>
+			<p>{{ form1.telefono.label_tag }}{{ form1.telefono }}</p>
+			<p>{{ form1.direccion.label_tag }}{{ form1.direccion }}</p>
+		</div>
+		<br>
+
+		<button type="submit" class="btn">Terminar</button>
+	</form>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Producto{% endblock %}
+
+{% block js %}
+	<script type="text/javascript">
+		function replaceIt(enlace){ enlace.replaceWith('<img src="'+enlace.attr('href')+'" width="100"/>'); }
+		$('p').find('input[type=file]').each(function(){
+			replaceIt($(this).parent().find('a'));
+			var ll = $(this).parent().find('label').last()
+			if ($(ll).html() == 'Limpiar'){
+				$(ll).css('display', 'inline');
+			}
+		});
+	</script>
+{% endblock js %}
+
+{% block content %}
+	<h1>{{ informacion }}</h1><br>
+	<form action="." method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="well">
+		{{ form.as_p }}
+		<button class="btn btn-info">Terminar</button>
+		</div>
+	</form>
+		
+    <br>
+<a href="/productos/page/1/">Regresar a la lista de Productos</a>		
+{% endblock %}Publicar
+

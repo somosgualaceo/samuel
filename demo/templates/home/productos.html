@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %} Clasificados Azuay {% endblock %}	 
+
+{% block js %}
+<script type="text/javascript">
+	$("#categorias").find('ul>li a').each(function(){
+		$(this).on('click', function(e){
+			e.preventDefault();
+			$('#cat').val($(this).data('id'));
+			$('#cat_select').text($(this).data('nombre'));
+			$('#categorias').modal('hide');
+		});
+	});
+</script>
+{% endblock js %}
+
+{% block content %}
+
+<br>
+    <form>
+    	
+    	<select  name="ciu">
+    		<option value=''>Ciudad</option>
+    		{% for ciudad in ciudades %}
+				<option value='{{ ciudad.id }}'>{{ ciudad.nombre }}</option>
+			{% endfor %}
+    	</select>
+
+    	<a data-toggle="modal" href="#categorias" class="btn btn-default" id="cat_select">Categoria...</a>
+    	<input type="hidden" id="cat" name="cat" value=''>
+    	
+    	<input type="submit" class="btn btn-primary" value="Buscar">
+    </form>
+
+{% if autor %}
+	<h3>Productos de {{ username_autor }}</h3>
+{% endif %}
+
+{% if productos %}
+	<div class="pager">
+		<ul>
+			<li class="active"><a href="#">Pagina {{ productos.number }} de {{ productos.paginator.num_pages }}</a></li>
+			<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/1"> Primera </a></li>
+			{% if productos.has_previous %}
+				<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{productos.previous_page_number }}/?{{ request.GET.urlencode }}"><i class="icon-backward"></i> Anterior</a></li>
+			{% else %}
+				<li><a href="#"><i class="icon-backward"></i> Anterior</a></li>
+			{% endif %}
+			{% for numpag in num_pages %}
+				<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{ numpag }}/?{{ request.GET.urlencode }}">{{ numpag }}</a></li>
+			{% endfor %}
+			
+			{% if productos.has_next %}
+				<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{ productos.next_page_number }}/?{{ request.GET.urlencode }}">Siguiente <i class="icon-forward"></i></a></li>
+			{% else %}
+				<li><a href="#">Siguiente <i class="icon-backward"></i></a>
+			{% endif %}	
+			<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{productos.paginator.num_pages }}/?{{ request.GET.urlencode }}">Ultima</a></li>	
+			
+		</ul>
+	</div>	
+{% endif %}
+
+	<section id="websites">
+{% if productos %}
+	{% for p in productos %}
+	<article style="display: inline-block; text-align:left;">
+	
+		<div style="width:180px;height:40px;"><p><a href="/producto/{{p.id}}/">{{ p.nombre|truncatewords_html:11 }}</a> {% if p.autor == user %}- <a href="/editarproducto/{{p.id}}/">Editar</a>{% endif %}</p></div><br><br>
+		<div style="width:180px;height:40px;"> <p><h5>Precio <span class="label label-danger">$ {{ p.precio }}</span></h5></p></div>
+		<div><p>Hace {{ p.fecha|timesince }}</p></div>
+		
+		{% if p.imagen1 %}
+			<div style="width:180px;height:50px;"><a href="/producto/{{p.id}}/"><img src="/media/{{ p.imagen1 }}" align="center" class="img-polaroid" width="80px" height="60px"/></a></div><br><br>
+		{% else %}
+			<div style="width:180px;height:90px;"><a href="/producto/{{p.id}}/"><img src="/media/images/no_image.gif" align="center" class="img-polaroid" width="80px" height="60px"/></a></div>
+		{% endif %}
+		<br>
+		
+		<div><p>Visitas {{ p.visitas }} - En<span class="label label-info"> {{ p.ciudad }}</span> </p></div>
+		
+	
+	</article>
+	{% endfor %}
+	
+	</section>	
+	
+		
+{% else %}
+	<h2>No existen clasificados publicados a la venta :(</h2>
+{% endif %}
+
+{% if productos %}
+
+	<div class="pager">
+		<ul>
+			<li class="active"><a href="#">Pagina {{ productos.number }} de {{ productos.paginator.num_pages }}</a></li>
+			<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/1"> Primera </a></li>
+			{% if productos.has_previous %}
+				<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{productos.previous_page_number }}/?{{ request.GET.urlencode }}"><i class="icon-backward"></i> Anterior</a></li>
+			{% else %}
+				<li><a href="#"><i class="icon-backward"></i> Anterior</a></li>
+			{% endif %}
+			{% for numpag in num_pages %}
+				<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{ numpag }}/?{{ request.GET.urlencode }}">{{ numpag }}</a></li>
+			{% endfor %}
+			{% if productos.has_next %}
+				<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{ productos.next_page_number }}/?{{ request.GET.urlencode }}">Siguiente <i class="icon-forward"></i></a></li>
+			{% else %}
+				<li><a href="#">Siguiente <i class="icon-backward"></i></a>
+			{% endif %}	
+			<li><a href="/productos{% if autor %}/{{ autor }}{% endif %}/page/{{productos.paginator.num_pages }}/?{{ request.GET.urlencode }}">Ultima</a></li>
+			
+		</ul>
+	</div>
+{% endif %}
+
+<div class="modal fade" id="categorias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	      <h4 class="modal-title">Selecciona una categoria:</h4>
+	    </div>
+	    <div class="modal-body">
+	    	<ul>
+		        {% for categoria in categorias %}
+					<li><a href="#" data-id="{{ categoria.id }}" data-nombre="{{ categoria.nombre }}">{{ categoria.nombre }}</a></li>
+				{% endfor %}
+			</ul>
+	    </div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+{% endblock %}

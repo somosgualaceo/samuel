@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo usuario{% endblock %}
+
+	<h1>Registra un nuevo usuario</h1>
+
+{% block content %}
+	<h2>{{ mensaje }}</h2>
+	<div class="well">
+	<form id='formulario' method='post' action='' enctype='multipart/form-data'>{% csrf_token %}
+		{{formulario.as_p}}
+		<button class="btn btn-info">Registrar</button>
+	</form>
+	</div>
+{% endblock %}

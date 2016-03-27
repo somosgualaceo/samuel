@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}Agregar Producto{% endblock %}
+
+{% block my_css %}
+	<style type="text/css">
+		.asterisc_required{
+			color:#f00;
+		}
+	</style>
+{% endblock my_css %}
+
+{% block js %}
+	<script type="text/javascript">
+		$('.imagenes_add_producto').parent().css('display', 'none');
+		function agregar_imagen(){
+			var next_img = $('.imagenes_add_producto').first();
+			next_img.parent().removeAttr('style');
+			next_img.removeClass('imagenes_add_producto');
+			next_img.addClass('imagenes_no_producto');
+
+			$('<a class="btn btn-danger" onclick="borrar_imagen(this);"><i class="icon-trash icon-white"></i>Borrar</a>').appendTo(next_img.parent());
+
+			if ($('.imagenes_add_producto').length <= 0){
+				$("#agregar_mas_imagenes").css('display', 'none');
+			}
+		}
+		function borrar_imagen(este){
+			$(este).parent().css('display','none');
+			var that = $(este).parent().find('.imagenes_no_producto');
+			$(that).val('');
+			$(that).removeClass('imagenes_no_producto');
+			$(that).addClass('imagenes_add_producto');
+			$(este).remove();
+			if ($('.imagenes_add_producto').length >= 0){
+				$("#agregar_mas_imagenes").removeAttr('style');
+			}
+		}
+		$('<a class="btn btn-success" id="agregar_mas_imagenes" onclick="agregar_imagen();"><i class="icon-plus icon-white"></i>Agrega otra imágen</a>').appendTo($('#id_imagen1').parent());
+	$("#categorias").find('ul>li a').each(function () {
+        $(this).on('click', function (e) {
+            e.preventDefault();
+            $('#categoria').val($(this).data('id'));
+            $('#cat_select').text($(this).data('nombre'));
+            $('#categorias').modal('hide');
+        });
+    });
+	
+	</script>
+	
+	
+
+{% endblock js %}
+
+{% block content %}
+
+
+	
+	<h1>{{ informacion }}</h1>
+	
+	<form action="." method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="well">
+
+
+        <table>
+            <tr>
+                <td> <strong>Categoria:</strong></td>
+                <td>
+                    <a data-toggle="modal" href="#categorias" class="btn btn-default" id="cat_select">Categoria...</a> <span class="asterisc_required">*</span>
+
+                </td>
+
+            </tr>
+
+        </table>
+    </div>
+</form>
+	
+	
+	<form action="." method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="well">
+		{{ form.as_p }}
+		<button class="btn btn-info">Publicar</button>
+		</div>
+	</form>
+    <br>
+<a href="/productos/page/1/">Regresar a la lista de Productos</a>	
+
+	<div class="modal fade" id="categorias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Selecciona una categoria:</h4>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    {% for categoria in categorias %}
+                    <li><a href="#" data-id="{{ categoria.id }}" data-nombre="{{ categoria.nombre }}">{{ categoria.nombre }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+	
+{% endblock %}

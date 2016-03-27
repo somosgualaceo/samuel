@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<TITLE>{% block title %} Titulo Base {% endblock %}</TITLE>
+	{% block css %}<link rel="stylesheet" href="/media/css/estilo.css">{% endblock %}
+	{% block my_css %}{% endblock my_css %}
+	
+	<!--<link rel="stylesheet" href="/media/css/style.css">-->
+	<link rel="stylesheet" href="/media/css/bootstrap.css" type="text/css"/>
+	<link rel="stylesheet" href="/media/css/bootstrap-theme.css" type="text/css">
+    <!--<link rel="stylesheet" href="/media/css/simpleblog.css" type="text/css" media="screen" />-->
+	
+	
+	<!--<link cambiarfondo>-->
+	<link rel="stylesheet" href="/media/css/colorpicker.css">
+	 <script src="/media/js/jquery-1.10.2.min.js"></script>
+	<script src="/media/js/jquery.easing.js"></script>
+	<script src="/media/js/main.js"></script>
+	<script src="/media/js/colorpicker.js"></script>
+	
+	<!--<link fincambiarfondo>-->
+	 
+	<script type="text/javascript" src="/media/js/yoxview/yoxview-init.js"></script>	 
+	
+	
+	<link rel="stylesheet" href="/media/css/owl.carousel.css" >
+	<link rel="stylesheet" href="/media/css/owl.theme.css" >
+	<script src="/media/js/owl.carousel.js"></script>
+	
+	
+	
+	<link rel="stylesheet" type="text/css" href="/media/css/default.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/component.css" />
+	<script src="/media/js/modernizr.custom.js"></script>
+    
+	<!--<link rel="stylesheet" href="/media/css/style.css">-->
+	
+    <link rel="stylesheet" type="text/css" href="/media/chosen/chosen.css">
+    <script type="text/javascript" src="/media/chosen/chosen.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$('select').chosen();
+		});
+	</script>
+	
+
+</HEAD>
+<body>
+
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+		fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
+	
+
+<!-- Static navbar -->
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'vista_principal' %}">Inicio</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+
+
+          <ul class="nav navbar-nav">
+           
+           <li><a href="{% url 'vista_about' %}">Somos</a></li>
+			  <li><a href="/productos/page/1/">Clasificados</a></li>
+			  <li><a href="{% url 'vista_nuevo_usuario' %}">Registro</a></li>
+            
+          </ul>
+         
+        
+         
+	<form class="navbar-form navbar-left" role="search" action="/productos/page/1/" >
+      <div class="form-group">
+      	
+      	
+        <input type="text" name="nombre_producto" class="form-control" placeholder="Empleos, Servicios, Productos, Empresas" size="45" >
+        
+      
+      </div>
+      <button type="submit" class="btn  btn-info">Buscar</button>
+    </form>
+ 
+
+<ul class="nav navbar-nav navbar-right">
+	{% if user.is_authenticated %}
+      <li><a href="/perfil/" style="padding:0"><img src="{{ MEDIA_URL }}{% if user.foto %}{{ user.foto }}{% else %}images/no_image.gif{% endif %}" class="img-rounded" width="30px" heigth="10px"/></a></li>
+			<li><a class="navbar-link" href="/perfil/">{{user}}</a></li>
+
+			 <li class="dropdown">
+			 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Datos <b class="caret"></b> </a>
+				<ul class="dropdown-menu">
+					<li><a href="/perfil/">Mis Datos</a></li>
+					<li><a href="/productos/{{ user.nombre }}/">Mis Clasificados</a></li>
+					<li><a href='{% url "vista_logout" %}'>Cerrar Sesión</a></li>
+				</ul>
+			 </li>		
+			{% else %}
+				<li><a href="{% url 'vista_login' %}" class="navbar-link">Ingresar... </a></li>
+			{% endif %}
+</ul>
+
+
+
+        </div><!--/.nav-collapse -->
+      </div>
+
+<br>
+<br>
+	<br>
+	
+	
+
+<HEADER>
+
+	<img src="/media/images/logosomos.jpg" width="213"/>
+	<H3>"Proyecto" Clasificados Azuay (Proximamente Clasificados Ecuador)</H3><br>
+	
+<div class="fb-like" data-href="https://www.facebook.com/pages/Vendeazuay/602156253128362?fref=ts" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+ 
+	<a href="{% url 'vista_agregar_producto' %}"class="btn btn-danger" > {% if user.is_authenticated %}Publica {{ user.nombre }} ahora un anuncio{% else %}Publique un anuncio gratis{% endif %}<i class="icon-pencil"></i></a><br>
+<br>
+</HEADER>
+
+
+
+<br>
+
+
+<div id="contenedorprincipal">
+	
+		
+		{% block content %}
+		
+	
+		{% endblock %}
+		
+			
+</div>
+
+
+</div>
+
+{% block js %}<script src="/media/js/toucheffects.js"></script>{% endblock js %}
+
+			<script>
+				jQuery(document).ready(function(){
+				  	setColorPicker('bg_col');
+				});
+			</script>
+			<div id="opt_block">
+				<div class="opt_header">
+					<span></span>
+				</div>
+				<div class="opt_row bg_color">
+					<h3>background color:</h3>
+					<div id="bg_col" class="colorSelector"></div>
+				</div>
+				<div class="opt_row bg_pat">
+					<h3>Background Pattern:</h3>
+					<ul class="patterns_select">
+						<li><a href="#"><img src="/media/images/patterns/pattern1.png" alt=""></a></li>
+						<li><a href="#"><img src="/media/images/patterns/pattern2.png" alt=""></a></li>
+						<li><a href="#"><img src="/media/images/patterns/pattern3.jpg" alt=""></a></li>
+						<li><a href="#"><img src="/media/images/patterns/pattern4.png" alt=""></a></li>
+						<li><a href="#"><img src="/media/images/patterns/pattern5.png" alt=""></a></li>
+					</ul>
+				</div>
+				<div class="opt_row bg_img">
+					<h3>Background Image:</h3>
+					<ul class="bg_select">
+						<li><a href="#"><img src="/media/images/bg1.jpg" alt=""></a></li>
+						<li><a href="#"><img src="/media/images/bg2.jpg" alt=""></a></li>
+						<li><a href="#"><img src="/media/images/bg3.jpg" alt=""></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<script type="text/javascript" src="/media/js/bootstrap.js"></script>
+<br>
+
+
+<div id="headerpublicidad">
+	<div id="demo">
+        <div id="owl-demo" class="owl-carousel">
+          
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+		  <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+          <div class="item"><a href="" target="new" ><img src="http://www.publigualaceo.com/wp-content/themes/adams/headempresas/elpueblo.jpg"></a><br> <a href="" target="new" >ir a página</a>  </div>
+
+
+        </div>
+    </div>
+	
+	<style>
+    #owl-demo .item{
+		
+		height: 130px;
+        background: #fff;
+        padding: 10px 0px;
+        margin: 5px;
+        color: #000;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        text-align: center;
+    }
+	#owl-demo a{        
+        font-size: 13px;
+        margin: 5px;
+       
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        text-align: center;
+    }
+    </style>
+	<script>
+    $(document).ready(function() {
+
+      var owl = $("#owl-demo");
+
+      owl.owlCarousel({
+
+        // Define custom and unlimited items depending from the width
+        // If this option is set, itemsDeskop, itemsDesktopSmall, itemsTablet, itemsMobile etc. are disabled
+        // For better preview, order the arrays by screen size, but it's not mandatory
+        // Don't forget to include the lowest available screen size, otherwise it will take the default one for screens lower than lowest available.
+        // In the example there is dimension with 0 with which cover screens between 0 and 450px
+        
+        itemsCustom : [
+          [0, 2],
+          [450, 4],
+          [600, 7],
+          [700, 9],
+          [1000, 10],
+          [1200, 12],
+          [1400, 13],
+          [1600, 15]
+        ],
+        navigation : true
+
+      });
+    });
+    </script>
+
+</div>
+<br>
+<br>
+
+<footer>
+	<center><h5><img src="/media/images/gnomice.png" width="50"/> Desarrollado por Gnomice I.T</h5></center>
+	
+</footer>
+
+</body>
+
+</HTML>

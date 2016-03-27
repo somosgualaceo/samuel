@@ -1,0 +1,58 @@
+{% extends 'base.html' %} 
+
+  
+{% block title %}Inicio - Bienvenidos {% endblock %}
+{% block content %}
+
+<h3><p>Anuncios Destacados</p></h3>
+{% if user.is_authenticated %}
+	<div class="fotodeperfil">	
+	<div class="well">
+	<p> Bienvenido {{ user }}</p>
+	{% if user.foto %}
+		<img src="/media/{{ user.foto }}" class="img-polaroid" width="100px" heigth="100px"/><br>
+		<br>
+	{% endif %}
+	{% if user.telefono %}
+		<p>Número Teléfono: {{ user.telefono }}</p>
+	{% endif %}
+	{% if user.direccion %}
+		<p>Dirección: {{ user.direccion }}</p>
+	{% endif %}
+	</div>
+</div>	
+{% endif %}
+
+
+	<section id="websites" >
+	{% for p in productos_mv %}
+		
+		<article style="display: inline-block; width:200px; heigth:250px;">
+		<div style="width:200px; height:50px;"><p><a href="/producto/{{p.id}}/">{{ p.nombre|truncatewords_html:11 }}</a> {% if p.autor == user %}- <a href="/editarproducto/{{p.id}}/">Editar</a>{% endif %}</p></div><br>
+		<p><h5>Precio <span class="label label-danger">$ {{ p.precio }}</span></h5></p>
+		<p>Hace {{ p.fecha|timesince }}</p>
+		<br>
+		{% if p.imagen1 %}
+		<div style="width:200px;height:50px;"><a href="/producto/{{p.id}}/"><img src="/media/{{ p.imagen1 }}" align="center" class="img-polaroid" width="80px" height="60px"/></a></div><br>
+		<br>
+		
+		
+		{% endif %}
+		
+		{% if not p.imagen1 and not p.imagen2 and not p.imagen3 and not p.imagen4 %}
+		<div style="width:200px;height:50px;"><a href="/producto/{{p.id}}/"><img src="/media/images/no_image.gif" align="center" class="img-polaroid" width="100px" height="80px"/></a></div>
+		<br>
+		<br>
+		
+		{% endif %}
+		<br>
+		
+		<p>Visitas {{ p.visitas }} - <span class="label label-info">En {{ p.ciudad }}</span> </p>
+		
+		</article>
+			
+	{% endfor %}
+		</section>
+
+{% endblock content %}
+  

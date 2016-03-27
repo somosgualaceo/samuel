@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Recupera tu clave {% endblock %}
+
+{% block content %}
+	<h3>Recuperación de clave</h3>
+	<div class="well">
+		{{ mensaje }}
+		<form action="." method="POST">
+			{% csrf_token %}
+			<input type="email" name="email" placeholder="Ingresa tu email..." required value="{{ value }}"><br>
+			<button class="btn btn-info">Recuperar</button>
+		</form>
+	</div>
+{% endblock %}

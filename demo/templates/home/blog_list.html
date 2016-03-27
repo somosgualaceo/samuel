@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% block content %}
+	
+	{%for post in object_list%}
+		<div class="span2">	
+		<div class="well">
+		<h2> {{post.nombre}}<br></h2>
+		<p>{{post.descripcion|striptags }}</p>
+		<p>Hace {{ post.fecha|timesince }}</p>
+		<img src="/media/{{ post.imagen1 }}" width="80px" heigth="50px"/><br><br>
+		</div>
+	</div>
+	{%endfor%}<br>
+{%if is_paginated %}
+ 	{% if page_obj.has_previous%}
+ 	<a href="{% url blog_list%}?page={{page_obj.previous_page_number}}">Anterior</a>
+ 	{%endif%}
+ 		pagina {{page_obj.number}} de {{page_obj.paginator.num_pages}}.
+
+ 	{% if page_obj.has_next%}
+ 	<a href="{% url blog_list%}?page={{page_obj.next_page_number}}">Siguiente</a>
+ 	{%endif%}
+
+{%endif%}
+{% endblock content %}

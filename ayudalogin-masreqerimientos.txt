@@ -1,0 +1,14 @@
+-crear virual env con python 27
+-a la altura del manage.py ejecutar las dependencias con
+pip install -r requirements.txt
+-correr el projecto
+python manage.py runserver
+
+-Super Usuario:
+email     willy@gmail.com
+pass      willy
+
+
+Requerimientos:
+Recuperar contrasena no reconoce el email de un usario registrado
+en el detalle del producto donde se muestra el producto no funciona enviar un mensaje privado se queda en enviando
